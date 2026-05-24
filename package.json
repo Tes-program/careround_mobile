@@ -4,11 +4,12 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@expo-google-fonts/ibm-plex-mono": "^0.4.1",
@@ -54,6 +55,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.0",
     "@types/react": "~19.2.14",
+    "patch-package": "^8.0.1",
     "typescript": "~6.0.3"
   },
   "expo": {
