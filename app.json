@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "CareRound",
+    "slug": "careround",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "careround",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.careround.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#edf1f6"
+      },
+      "package": "com.careround.app"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "experiments": {
+      "typedRoutes": true
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-secure-store",
+      "expo-notifications",
+      "expo-av",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#edf1f6"
+        }
+      ]
+    ]
+  }
+}

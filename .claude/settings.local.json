@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(fnm list)",
+      "PowerShell(fnm env --shell powershell)",
+      "PowerShell($env:PATH = \"C:\\\\Users\\\\tesli\\\\AppData\\\\Local\\\\fnm_multishells\\\\8692_1779597008595;\" + $env:PATH; npm view \"expo@~52.0.0\" peerDependencies 2>&1 | Select-String \"react\")"
+    ]
+  }
+}

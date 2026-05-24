@@ -1,0 +1,47 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './app/**/*.{js,jsx,ts,tsx}',
+    './src/**/*.{js,jsx,ts,tsx}',
+  ],
+  presets: [require('nativewind/preset')],
+  theme: {
+    extend: {
+      colors: {
+        'cr-bg': '#edf1f6',
+        'cr-surface': '#ffffff',
+        'cr-surface-2': '#f6f8fb',
+        'cr-surface-3': '#eef2f7',
+        'cr-ink': '#0f172a',
+        'cr-ink-2': '#334155',
+        'cr-muted': '#64748b',
+        'cr-line': '#dbe3ed',
+        'cr-line-strong': '#c6d2df',
+        'cr-brand': '#0b5cab',
+        'cr-brand-ink': '#083f74',
+        'cr-accent': '#0e7490',
+        'cr-success': '#15803d',
+        'cr-warn': '#b45309',
+        'cr-danger': '#b91c1c',
+        'cr-danger-bg': '#fee2e2',
+        'cr-amber-bg': '#fef3c7',
+        'cr-green-bg': '#dcfce7',
+        'cr-acuity-red': '#dc2626',
+        'cr-acuity-amber': '#f59e0b',
+        'cr-acuity-green': '#22c55e',
+      },
+      fontFamily: {
+        sans: ['IBMPlexSans_400Regular'],
+        'sans-medium': ['IBMPlexSans_500Medium'],
+        'sans-semibold': ['IBMPlexSans_600SemiBold'],
+        'sans-bold': ['IBMPlexSans_700Bold'],
+        mono: ['IBMPlexMono_400Regular'],
+        'mono-medium': ['IBMPlexMono_500Medium'],
+        display: ['Sora_400Regular'],
+        'display-semibold': ['Sora_600SemiBold'],
+        'display-bold': ['Sora_700Bold'],
+      },
+    },
+  },
+  plugins: [],
+};
