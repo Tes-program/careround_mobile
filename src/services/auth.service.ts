@@ -26,7 +26,7 @@ export const authService = {
   },
 
   changePassword: async (currentPassword: string, newPassword: string): Promise<void> => {
-    await apiClient.put('/users/me/password', { currentPassword, newPassword });
+    await apiClient.post('/auth/change-password', { currentPassword, newPassword });
   },
 
   updateDeviceToken: async (fcmToken: string): Promise<void> => {

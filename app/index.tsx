@@ -3,9 +3,9 @@ import { useAuthStore } from '@/store/auth.store';
 import type { Role } from '@/types/domain';
 
 const ROLE_ROUTES: Record<Role, string> = {
-  DOCTOR: '/(app)/doctor',
-  NURSE: '/(app)/nurse',
-  SUPERVISOR: '/(app)/supervisor',
+  DOCTOR: '/(app)/doctor/patients',
+  NURSE: '/(app)/nurse/tasks',
+  SUPERVISOR: '/(app)/supervisor/dashboard',
   ADMIN: '/login',
 };
 

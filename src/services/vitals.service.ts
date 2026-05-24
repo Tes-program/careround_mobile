@@ -1,5 +1,5 @@
 import { apiClient } from '../lib/axios';
-import type { PatientVitals } from '../types/domain';
+import type { PatientVitalsEnriched } from '../types/domain';
 
 export interface RecordVitalsRequest {
   pulse?: number;
@@ -11,16 +11,20 @@ export interface RecordVitalsRequest {
   recordedAt?: string;
 }
 
-export type VitalsWithNurse = PatientVitals & { recordedByName: string };
-
 export const vitalsService = {
-  getPatientVitals: async (patientId: string): Promise<VitalsWithNurse[]> => {
-    const response = await apiClient.get<VitalsWithNurse[]>(`/patients/${patientId}/vitals`);
+  getPatientVitals: async (patientId: string): Promise<PatientVitalsEnriched[]> => {
+    const response = await apiClient.get<PatientVitalsEnriched[]>(`/patients/${patientId}/vitals`);
     return response.data;
   },
 
-  recordVitals: async (patientId: string, data: RecordVitalsRequest): Promise<VitalsWithNurse> => {
-    const response = await apiClient.post<VitalsWithNurse>(`/patients/${patientId}/vitals`, data);
+  recordVitals: async (
+    patientId: string,
+    data: RecordVitalsRequest,
+  ): Promise<PatientVitalsEnriched> => {
+    const response = await apiClient.post<PatientVitalsEnriched>(
+      `/patients/${patientId}/vitals`,
+      data,
+    );
     return response.data;
   },
 };

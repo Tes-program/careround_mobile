@@ -1,7 +1,5 @@
 import { apiClient } from '../lib/axios';
-import type { Prescription } from '../types/domain';
-
-export type PrescriptionWithConfirmer = Prescription & { confirmedByName: string };
+import type { PrescriptionEnriched } from '../types/domain';
 
 export interface CreatePrescriptionRequest {
   drugName: string;
@@ -24,8 +22,8 @@ export interface UpdatePrescriptionRequest {
 }
 
 export const prescriptionsService = {
-  getPatientPrescriptions: async (patientId: string): Promise<PrescriptionWithConfirmer[]> => {
-    const response = await apiClient.get<PrescriptionWithConfirmer[]>(
+  getPatientPrescriptions: async (patientId: string): Promise<PrescriptionEnriched[]> => {
+    const response = await apiClient.get<PrescriptionEnriched[]>(
       `/patients/${patientId}/prescriptions`,
     );
     return response.data;
@@ -34,8 +32,8 @@ export const prescriptionsService = {
   addPrescription: async (
     patientId: string,
     data: CreatePrescriptionRequest,
-  ): Promise<Prescription> => {
-    const response = await apiClient.post<Prescription>(
+  ): Promise<PrescriptionEnriched> => {
+    const response = await apiClient.post<PrescriptionEnriched>(
       `/patients/${patientId}/prescriptions`,
       data,
     );
@@ -45,12 +43,18 @@ export const prescriptionsService = {
   updatePrescription: async (
     prescriptionId: string,
     data: UpdatePrescriptionRequest,
-  ): Promise<Prescription> => {
-    const response = await apiClient.put<Prescription>(`/prescriptions/${prescriptionId}`, data);
+  ): Promise<PrescriptionEnriched> => {
+    const response = await apiClient.put<PrescriptionEnriched>(
+      `/prescriptions/${prescriptionId}`,
+      data,
+    );
     return response.data;
   },
 
-  discontinuePrescription: async (prescriptionId: string): Promise<void> => {
-    await apiClient.delete(`/prescriptions/${prescriptionId}/discontinue`);
+  discontinuePrescription: async (prescriptionId: string): Promise<PrescriptionEnriched> => {
+    const response = await apiClient.put<PrescriptionEnriched>(
+      `/prescriptions/${prescriptionId}/discontinue`,
+    );
+    return response.data;
   },
 };

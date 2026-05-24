@@ -2,6 +2,8 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { STORAGE_KEYS } from '../types/domain';
 import type { ApiResponse, JwtResponse } from '../types/domain';
+import { DEMO_MODE } from './demo';
+import { getMockResponse } from './mock-responses';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL ?? 'http://localhost:8080/api/v1';
 
@@ -28,6 +30,50 @@ function processQueue(error: unknown, token: string | null): void {
     }
   });
   failedQueue = [];
+}
+
+// ─── Demo Mode Interceptors ──────────────────────────────────────────────────
+// When DEMO_MODE is true, intercept every request and return mock data.
+// The request interceptor cancels the real request; the response interceptor
+// resolves the mock so calling code sees a normal Axios response.
+
+interface DemoMockError {
+  config: InternalAxiosRequestConfig;
+  response: { status: number; data: unknown };
+  isDemoMode: true;
+}
+
+if (DEMO_MODE) {
+  apiClient.interceptors.request.use(
+    async (config: InternalAxiosRequestConfig) => {
+      const headers: Record<string, string> = {};
+      if (config.headers) {
+        const authHeader = config.headers.get?.('Authorization') ?? config.headers['Authorization'];
+        if (authHeader) headers['Authorization'] = String(authHeader);
+      }
+      const mockData = getMockResponse(config.url, config.method, config.data, headers);
+      // Wrap the ApiResponse envelope so the response interceptor unwraps it
+      const err: DemoMockError = {
+        config,
+        response: { status: 200, data: mockData },
+        isDemoMode: true,
+      };
+      return Promise.reject(err);
+    },
+    undefined,
+    { synchronous: false },
+  );
+
+  apiClient.interceptors.response.use(
+    (response) => response,
+    (error: unknown) => {
+      if (error && typeof error === 'object' && 'isDemoMode' in error) {
+        const demoError = error as DemoMockError;
+        return Promise.resolve(demoError.response);
+      }
+      return Promise.reject(error);
+    },
+  );
 }
 
 // ─── Request Interceptor ─────────────────────────────────────────────────────

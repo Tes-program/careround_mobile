@@ -1,22 +1,20 @@
 import { apiClient } from '../lib/axios';
-import type { MedicationTask } from '../types/domain';
-
-export type TaskWithDetails = MedicationTask & {
-  patientName: string;
-  bedNumber?: string;
-  drugName: string;
-  dose: string;
-  route: string;
-  minutesOverdue?: number;
-};
+import type { MedicationTaskEnriched } from '../types/domain';
 
 export const tasksService = {
-  getMedicationTasks: async (params?: { wardId?: string }): Promise<TaskWithDetails[]> => {
-    const response = await apiClient.get<TaskWithDetails[]>('/tasks/medication', { params });
+  getMedicationTasks: async (params?: { wardId?: string }): Promise<MedicationTaskEnriched[]> => {
+    const response = await apiClient.get<MedicationTaskEnriched[]>('/medication-tasks', { params });
     return response.data;
   },
 
-  completeTask: async (taskId: string, actualDoseGiven?: string): Promise<void> => {
-    await apiClient.post(`/tasks/medication/${taskId}/complete`, { actualDoseGiven });
+  completeTask: async (
+    taskId: string,
+    actualDoseGiven?: string,
+  ): Promise<MedicationTaskEnriched> => {
+    const response = await apiClient.put<MedicationTaskEnriched>(
+      `/medication-tasks/${taskId}/complete`,
+      actualDoseGiven ? { actualDoseGiven } : {},
+    );
+    return response.data;
   },
 };

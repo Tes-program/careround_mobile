@@ -3,7 +3,17 @@
     "allow": [
       "PowerShell(fnm list)",
       "PowerShell(fnm env --shell powershell)",
-      "PowerShell($env:PATH = \"C:\\\\Users\\\\tesli\\\\AppData\\\\Local\\\\fnm_multishells\\\\8692_1779597008595;\" + $env:PATH; npm view \"expo@~52.0.0\" peerDependencies 2>&1 | Select-String \"react\")"
+      "PowerShell($env:PATH = \"C:\\\\Users\\\\tesli\\\\AppData\\\\Local\\\\fnm_multishells\\\\8692_1779597008595;\" + $env:PATH; npm view \"expo@~52.0.0\" peerDependencies 2>&1 | Select-String \"react\")",
+      "PowerShell($nodePath = \"C:\\\\Users\\\\tesli\\\\AppData\\\\Roaming\\\\fnm\\\\node-versions\\\\v22.19.0\\\\installation\"; $env:PATH = \"$nodePath;$env:PATH\"; Set-Location \"C:\\\\Users\\\\tesli\\\\Codes\\\\careround-mobile\"; npx tsc --noEmit 2>&1)",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"C:\\\\Users\\\\tesli\\\\Codes\\\\careround-mobile\\\\src\\\\components\\\\patients\\\\tabs\")",
+      "PowerShell($env:PATH = \"C:\\\\Users\\\\tesli\\\\AppData\\\\Local\\\\fnm_multishells\\\\17232_1779622233397;\" + $env:PATH; Set-Location \"C:\\\\Users\\\\tesli\\\\Codes\\\\careround-mobile\"; node \".\\\\node_modules\\\\typescript\\\\bin\\\\tsc\" --noEmit 2>&1 | Select-Object -First 80)",
+      "Bash(Get-ChildItem -Path \".\" -Name)",
+      "mcp__wsl-projects__list_directory",
+      "mcp__wsl-projects__directory_tree",
+      "PowerShell($env:PATH = \"C:\\\\Users\\\\tesli\\\\AppData\\\\Roaming\\\\fnm\\\\node-versions\\\\v22.19.0\\\\installation;$env:PATH\"; cd C:\\\\Users\\\\tesli\\\\Codes\\\\careround-mobile; npx tsc --noEmit 2>&1 | Select-Object -First 80)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\tesli\\\\Codes\\\\careround-mobile\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "mcp__wsl-projects__read_text_file"
     ]
   }
 }

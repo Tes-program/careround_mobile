@@ -1,9 +1,8 @@
-import { Text, View } from 'react-native';
+import { Redirect } from 'expo-router';
 
-export default function NurseHome() {
-  return (
-    <View className="flex-1 items-center justify-center bg-cr-bg">
-      <Text className="text-lg font-sans-semibold text-cr-ink">/(app)/nurse</Text>
-    </View>
-  );
+/**
+ * Redirect the bare /nurse path to the Tasks tab (default tab).
+ */
+export default function NurseIndex() {
+  return <Redirect href="/(app)/nurse/tasks" />;
 }

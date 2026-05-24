@@ -15,3 +15,5 @@ yarn-error.*
 .pnpm-debug.*
 ios/
 android/
+# Firebase — replace placeholder with real file from Firebase Console
+google-services.json

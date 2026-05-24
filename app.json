@@ -9,13 +9,22 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.careround.app"
+      "bundleIdentifier": "com.careround.app",
+      "infoPlist": {
+        "UIBackgroundModes": ["fetch", "remote-notification"]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#edf1f6"
       },
-      "package": "com.careround.app"
+      "package": "com.careround.app",
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE",
+        "android.permission.POST_NOTIFICATIONS"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -28,14 +37,23 @@
       "expo-router",
       "expo-font",
       "expo-secure-store",
-      "expo-notifications",
+      [
+        "expo-notifications",
+        {
+          "color": "#0e7490",
+          "sounds": [],
+          "androidMode": "default",
+          "androidCollapsedTitle": "CareRound"
+        }
+      ],
       "expo-av",
       [
         "expo-splash-screen",
         {
           "backgroundColor": "#edf1f6"
         }
-      ]
+      ],
+      "@react-native-community/datetimepicker"
     ]
   }
 }

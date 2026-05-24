@@ -177,4 +177,56 @@ export const STORAGE_KEYS = {
   REFRESH_TOKEN: 'cr_refresh_token',
   USER: 'cr_user',
   ROLE: 'cr_role',
+  FCM_TOKEN: 'cr_fcm_token',
+  NOTIF_DENIED: 'cr_notif_denied',
+  NOTIF_PROMPTED: 'cr_notif_prompted',
 } as const;
+
+// ── Enriched types (server joins the user name) ───────────────────────────────
+
+export interface PatientVitalsEnriched extends PatientVitals {
+  recordedByName: string;
+}
+
+export interface ClinicalNoteEnriched extends ClinicalNote {
+  authorName: string;
+  authorRole: string;
+}
+
+export interface PrescriptionEnriched extends Prescription {
+  confirmedByName: string;
+}
+
+export interface MedicationTaskEnriched extends MedicationTask {
+  patientName: string;
+  bedNumber?: string;
+  wardName?: string;
+  drugName: string;
+  dose: string;
+  route: string;
+  minutesOverdue?: number;
+}
+
+// ── AI / Voice-note types ─────────────────────────────────────────────────────
+
+export interface AiPrescription {
+  drugName: string;
+  dose: string;
+  route: string;
+  frequencyString: string;
+  frequencyHours: number;
+  totalDoses: number;
+  administrationTimes: string[];
+}
+
+export interface AiProcessingResult {
+  rawTranscription: string;
+  clinicalNote: SoapContent;
+  prescriptions: AiPrescription[];
+}
+
+export interface ConfirmNoteRequest {
+  rawTranscription: string;
+  clinicalNote: SoapContent;
+  prescriptions: AiPrescription[];
+}
