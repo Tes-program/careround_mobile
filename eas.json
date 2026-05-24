@@ -16,9 +16,6 @@
       "android": {
         "buildType": "apk"
       },
-      "hooks": {
-        "pre-install": "./eas-hooks/eas-build-pre-install.sh"
-      },
       "env": {
         "EXPO_PUBLIC_API_BASE_URL": "http://your-backend-url/api/v1",
         "EXPO_PUBLIC_DEMO_MODE": "false"
@@ -28,9 +25,6 @@
       "distribution": "internal",
       "android": {
         "buildType": "apk"
-      },
-      "hooks": {
-        "pre-install": "./eas-hooks/eas-build-pre-install.sh"
       },
       "env": {
         "EXPO_PUBLIC_API_BASE_URL": "http://your-backend-url/api/v1",
