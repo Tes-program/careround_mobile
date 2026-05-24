@@ -13,7 +13,10 @@
       "PowerShell($env:PATH = \"C:\\\\Users\\\\tesli\\\\AppData\\\\Roaming\\\\fnm\\\\node-versions\\\\v22.19.0\\\\installation;$env:PATH\"; cd C:\\\\Users\\\\tesli\\\\Codes\\\\careround-mobile; npx tsc --noEmit 2>&1 | Select-Object -First 80)",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\tesli\\\\Codes\\\\careround-mobile\" -Recurse -Directory)",
       "Bash(Select-Object -ExpandProperty FullName)",
-      "mcp__wsl-projects__read_text_file"
+      "mcp__wsl-projects__read_text_file",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\tesli\\\\Codes\\\\careround-mobile\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\tesli\\\\Codes\\\\careround-mobile\\\\src\\\\hooks\" -ErrorAction SilentlyContinue)"
     ]
   }
 }

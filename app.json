@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "scheme": "careround",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.careround.app",

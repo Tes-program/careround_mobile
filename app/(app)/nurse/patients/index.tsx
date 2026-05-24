@@ -310,7 +310,6 @@ function NursePatientsContent() {
       {/* Patient list */}
       <FlashList
         data={filteredPatients}
-        estimatedItemSize={88}
         keyExtractor={nursePatientKeyExtractor}
         renderItem={renderNursePatient}
         getItemType={nursePatientGetItemType}

@@ -16,6 +16,7 @@ import { colors, fontFamily } from '@/constants/theme';
 import { classifyTask } from '@/utils/tasks';
 import { useNotificationHandler } from '@/hooks/useNotificationHandler';
 import { useBadgeSync } from '@/hooks/useBadgeSync';
+import { configureAndroidChannel } from '@/services/notifications.service';
 import { Toast } from '@/components/ui';
 import type { MedicationTaskEnriched } from '@/types/domain';
 
@@ -64,6 +65,14 @@ export default function NurseLayout() {
   // useBadgeSync: keeps app icon badge in sync with overdue task count
   const { toastProps } = useNotificationHandler();
   useBadgeSync();
+
+  // ── Android notification channel ─────────────────────────────────────────────
+  // Create the HIGH-importance "medication_alerts" channel once when the nurse
+  // layout mounts. Android is idempotent — safe to call on every app launch.
+  // No-op on iOS.
+  useEffect(() => {
+    void configureAndroidChannel();
+  }, []);
 
   // ── Tab bar badge: OVERDUE + DUE_SOON tasks ──────────────────────────────────
   // Initialise badge from whatever is in the cache right now
@@ -116,7 +125,7 @@ export default function NurseLayout() {
         options={{
           title: 'Tasks',
           tabBarIcon: ({ color, size }) => (
-            <ClipboardListIcon color={color} size={size} />
+            <ClipboardListIcon color={color as string} size={size} />
           ),
           tabBarBadge: badgeCount > 0 ? badgeCount : undefined,
           tabBarBadgeStyle: { backgroundColor: colors.danger },
@@ -127,7 +136,7 @@ export default function NurseLayout() {
         options={{
           title: 'Patients',
           tabBarIcon: ({ color, size }) => (
-            <UsersIcon color={color} size={size} />
+            <UsersIcon color={color as string} size={size} />
           ),
         }}
       />

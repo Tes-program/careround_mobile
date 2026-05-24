@@ -10,6 +10,7 @@
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import Constants from 'expo-constants';
+import { Platform } from 'react-native';
 
 // ── Payload shape sent by careround-notification service ──────────────────────
 
@@ -92,15 +93,53 @@ export async function getFCMToken(): Promise<string | null> {
  * Configure how notifications behave when the app is foregrounded.
  * Must be called once before any notification can arrive — call at module
  * level in the root layout so it is set up before navigation mounts.
+ *
+ * Wrapped in try-catch: Expo Go on Android (SDK 53+) removed push-notification
+ * support and throws on most Notifications API calls. The app still runs; only
+ * push notification delivery is unavailable. Use a development build for full
+ * notification support on Android.
  */
 export function configureNotificationHandler(): void {
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: true,
-    }),
-  });
+  try {
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldShowBanner: true,
+        shouldShowList: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+      }),
+    });
+  } catch {
+    // expo-notifications not supported on Android in Expo Go (SDK 53+).
+    // Notifications will be silently unavailable — use a dev build instead.
+  }
+}
+
+// ── Android notification channel ─────────────────────────────────────────────
+
+/**
+ * Create (or update) the "medication_alerts" Android notification channel.
+ * Must be called on Android before the first notification can arrive so the
+ * channel exists when FCM delivers a message with channelId="medication_alerts".
+ * Safe to call multiple times — Android is idempotent on existing channels.
+ * No-op on iOS.
+ */
+export async function configureAndroidChannel(): Promise<void> {
+  if (Platform.OS !== 'android') return;
+  try {
+    await Notifications.setNotificationChannelAsync('medication_alerts', {
+      name: 'Medication Alerts',
+      importance: Notifications.AndroidImportance.HIGH,
+      vibrationPattern: [0, 250, 250, 250],
+      sound: 'default',
+      enableLights: true,
+      lightColor: '#b91c1c',
+      showBadge: true,
+    });
+  } catch {
+    // Graceful degradation — notifications still arrive on the default channel
+  }
 }
 
 // ── Payload parsing ───────────────────────────────────────────────────────────

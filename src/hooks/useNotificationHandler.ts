@@ -32,50 +32,60 @@ export function useNotificationHandler(): { toastProps: ToastProps } {
   const router = useRouter();
 
   useEffect(() => {
-    // ── Listener 1: foreground notification arrived ───────────────────────────
-    const foregroundSub = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        const data = parseNotificationData(notification);
-        if (!data) return;
+    // Expo Go on Android (SDK 53+) throws when registering notification listeners.
+    // Guard with try-catch so the app still runs; push notifications simply won't
+    // fire in that environment. Use a development build for full support.
+    let foregroundSub: ReturnType<typeof Notifications.addNotificationReceivedListener> | null = null;
+    let responseSub: ReturnType<typeof Notifications.addNotificationResponseReceivedListener> | null = null;
 
-        // In-app toast — iOS suppresses the system banner when foregrounded
-        showToast({
-          message: `⚠ ${data.drugName} ${data.dose} for ${data.patientName} — overdue`,
-          type: 'error',
-        });
+    try {
+      // ── Listener 1: foreground notification arrived ─────────────────────────
+      foregroundSub = Notifications.addNotificationReceivedListener(
+        (notification) => {
+          const data = parseNotificationData(notification);
+          if (!data) return;
 
-        // Optimistic badge increment: compute current overdue count + 1
-        const tasks =
-          queryClient.getQueryData<MedicationTaskEnriched[]>(['tasks']) ?? [];
-        const currentOverdue = tasks.filter(
-          (t) => classifyTask(t) === 'OVERDUE',
-        ).length;
-        void setBadgeCount(currentOverdue + 1);
+          // In-app toast — iOS suppresses the system banner when foregrounded
+          showToast({
+            message: `⚠ ${data.drugName} ${data.dose} for ${data.patientName} — overdue`,
+            type: 'error',
+          });
 
-        // Invalidate tasks so the list re-fetches immediately
-        void queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      },
-    );
+          // Optimistic badge increment: compute current overdue count + 1
+          const tasks =
+            queryClient.getQueryData<MedicationTaskEnriched[]>(['tasks']) ?? [];
+          const currentOverdue = tasks.filter(
+            (t) => classifyTask(t) === 'OVERDUE',
+          ).length;
+          void setBadgeCount(currentOverdue + 1);
 
-    // ── Listener 2: user tapped a notification ────────────────────────────────
-    const responseSub = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        const data = parseNotificationData(response.notification);
-        if (!data) return;
+          // Invalidate tasks so the list re-fetches immediately
+          void queryClient.invalidateQueries({ queryKey: ['tasks'] });
+        },
+      );
 
-        // Navigate to task list — highlightTaskId triggers scroll + flash
-        router.push({
-          pathname: '/(app)/nurse/tasks',
-          params: { highlightTaskId: data.taskId },
-        } as never);
+      // ── Listener 2: user tapped a notification ──────────────────────────────
+      responseSub = Notifications.addNotificationResponseReceivedListener(
+        (response) => {
+          const data = parseNotificationData(response.notification);
+          if (!data) return;
 
-        void clearBadge();
-      },
-    );
+          // Navigate to task list — highlightTaskId triggers scroll + flash
+          router.push({
+            pathname: '/(app)/nurse/tasks',
+            params: { highlightTaskId: data.taskId },
+          } as never);
+
+          void clearBadge();
+        },
+      );
+    } catch {
+      // expo-notifications not supported on Android in Expo Go (SDK 53+).
+    }
 
     return () => {
-      foregroundSub.remove();
-      responseSub.remove();
+      foregroundSub?.remove();
+      responseSub?.remove();
     };
   }, [showToast, queryClient, router]);
 

@@ -229,7 +229,6 @@ function DoctorPatientsContent() {
       {/* Patient list — ListEmptyComponent keeps pull-to-refresh working */}
       <FlashList
         data={filteredPatients}
-        estimatedItemSize={88}
         keyExtractor={keyExtractor}
         renderItem={renderPatient}
         getItemType={getItemType}

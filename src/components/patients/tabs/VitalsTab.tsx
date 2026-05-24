@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { CartesianChart, Line } from 'victory-native';
 import { useFont } from '@shopify/react-native-skia';
+import { IBMPlexMono_400Regular } from '@expo-google-fonts/ibm-plex-mono';
 import * as Haptics from 'expo-haptics';
 import { usePatientVitals } from '@/hooks/useVitals';
 import { useRecordVitals } from '@/hooks/useVitals';
@@ -718,11 +719,7 @@ export function VitalsTab({ patientId, canWrite }: VitalsTabProps) {
   const { data: vitals = [], isLoading } = usePatientVitals(patientId);
 
   // Load font for axis labels (optional — labels won't show if null)
-  const axisFont = useFont(
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require('@expo-google-fonts/ibm-plex-mono/IBMPlexMono_400Regular.ttf'),
-    10,
-  );
+  const axisFont = useFont(IBMPlexMono_400Regular, 10);
 
   const filtered = filterByRange(vitals, range);
   const chartData = toChartData(filtered);

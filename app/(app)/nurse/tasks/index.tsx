@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, { FadeIn } from 'react-native-reanimated';
-import { FlashList } from '@shopify/flash-list';
+import { FlashList, type FlashListRef } from '@shopify/flash-list';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import * as Haptics from 'expo-haptics';
@@ -291,7 +291,7 @@ function NurseTasksContent() {
   const activeHighlightId = urlHighlightId ?? pendingHighlightTaskId ?? null;
 
   // Ref to the FlashList so we can scroll programmatically
-  const flashListRef = useRef<FlashList<ListItem>>(null);
+  const flashListRef = useRef<FlashListRef<ListItem>>(null);
   // Always-current snapshot of listItems — updated each render before effects run
   const listItemsRef = useRef<ListItem[]>([]);
 
@@ -693,16 +693,6 @@ function NurseTasksContent() {
           keyExtractor={taskListKeyExtractor}
           getItemType={getItemType}
           removeClippedSubviews
-          overrideItemLayout={(layout, item) => {
-            if (item.type === 'section-header') {
-              layout.size = 44;
-            } else if (item.type === 'task') {
-              layout.size = 90;
-            } else {
-              layout.size = 36;
-            }
-          }}
-          estimatedItemSize={80}
           ListEmptyComponent={ListEmptyComponent}
           contentContainerStyle={{ paddingTop: 4, paddingBottom: 32 }}
           refreshing={false}
