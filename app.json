@@ -4,6 +4,7 @@
     "slug": "careround",
     "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "scheme": "careround",
     "userInterfaceStyle": "light",
     "ios": {
@@ -41,20 +42,25 @@
       "expo-router",
       "expo-font",
       "expo-secure-store",
-      [
+       [
         "expo-notifications",
         {
+          "icon": "./assets/notification-icon.png",
           "color": "#0e7490",
-          "sounds": [],
           "androidMode": "default",
-          "androidCollapsedTitle": "CareRound"
+          "androidCollapsedTitle": "CareRound",
+          "androidVibrationPattern": [0, 250, 250, 250],
+          "iosDisplayInForeground": true
         }
       ],
       "expo-av",
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#edf1f6"
+          "image": "./assets/splash.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#0e7490"
         }
       ],
       "@react-native-community/datetimepicker"
