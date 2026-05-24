@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "483491339730",
+    "project_id": "careround-mobile",
+    "storage_bucket": "careround-mobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483491339730:android:0efbdd70f7cb0be6353c0b",
+        "android_client_info": {
+          "package_name": "com.careround.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf5dzblUnn8X3h06NvvFz1icpnImTOPNQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
